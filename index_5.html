@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <title>Melbourne tourist help</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css' rel='stylesheet' />
+
+    
+     <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="***" crossorigin="anonymous">
+
+
+     <!-- Compiled and minified JavaScript -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    <style>
+      body { 
+        margin: 0; 
+        padding: 0; 
+      }
+      #map { 
+        height: 700px;
+      }
+      .mapboxgl-popup-close-button{
+        display: none;
+      }
+      .mapboxgl-popup-content{
+        border-radius: 40px;
+        text-align: center;
+        padding: 5px 10px;
+      }
+      #sidebar{
+        height: 700px;
+        background: #000;
+        text-align: center;
+      }
+      .point-info-side{
+        width: 100%;
+        text-align: center;
+      }
+      .hourly_holder{
+        display: inline-block;
+        text-align: center;
+        font-size: 12px;
+        width: auto;
+        height: auto;
+        border: 1px solid rgb(172, 172, 172);
+        margin: 0 1px;
+        border-radius: 3px;
+      }
+      .weather_icon_holder img{
+        width: 30px;
+        height: 30px;
+      }
+      .weather_text_holder{
+        border-top: 1px solid rgb(172, 172, 172);
+      }
+      .weather_hourly_icon, .weather_daily_icon{
+        text-align: center;
+        padding: 10px;
+      }
+      .navigation-btn-holder{
+        text-align: center;
+        margin-top: 15px;
+      }
+      .point-sub-section{
+        margin-top: 0px;
+        margin-bottom: 15px;
+        font-size: 15px;
+        font-weight: 300;
+        color: #fff;
+      }
+      .point-name{
+        margin-top: 60px;
+        margin-bottom: 15px;
+        font-size: 28px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .p-explain{
+        height: auto;
+        text-align: center;
+        font-size: 15px;
+        padding: 20px 30px;
+
+      }
+      .btn{
+        background-color: #0f86bd;
+      }
+      .btn:hover{
+        background-color: #3a9cc9;
+      }
+      .w-hourly-header{
+        margin: 10px auto;
+        font-size: 18px;
+        color:#fff;
+      }
+      .w-daily-header{
+        margin: 10px auto;
+        font-size: 18px;
+        color:#fff;
+      }
+      .weather_text_holder{
+        color:#fff;
+      }
+
+      .temp-info{
+        text-align: center;
+        font-size: 18px;
+        margin-top: 200px;
+        text-align: justify;
+        padding-left: 30px;
+        padding-right: 30px;
+        font-weight: 300;
+        color:#fff;
+      }
+      #search{
+        text-align: center;
+      }
+      ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #fff;
+        opacity: 1; /* Firefox */
+      }
+
+      :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #fff;
+      }
+
+      ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #fff;
+      }
+      #sendsearch{
+        border-radius: 20px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header style="text-align: center;margin: 35px auto;">
+      <h1>Melbourne Metropolitan Points of Interest</h1>
+      <h5>For Tourists and Visitors</h5>
+      <h6 style="font-weight: 300;">This application can be provided by tourism industry for tourists to guide them in the metropolitan Melbourne.</h6>
+      <h6 style="font-weight: 200;font-size: 13px;">You can find tram information arournd the selected area and navigate through any point of interest provided in the map by markers and check the weather before moving to any new point.</h6>
+      <a href="#here" class="btn pulse" style="margin-top: 20px;border-radius: 20px;"> Jump to the map <i class="fas fa-arrow-down"></i></a>
+    </header>
+    <hr>
+    <div class="" style="text-align: center;width: 100%;margin: 10px auto;font-size: 18px;font-weight: 700;padding:5px;">Melbourne Zoo</div>
+    <div class="parallax-container" style="height: 350px;">
+      <div class="parallax"><img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Giraffe08_-_melbourne_zoo.jpg"></div>
+    </div>
+
+    <p class="p-explain">
+      Melbourne Zoo is located within Royal Park in Parkville, approximately 4 kilometres (2.5 mi) north of the centre of Melbourne. It is the primary zoo serving Melbourne. The zoo contains more than 320 animal species from Australia and around the world, and is accessible via Royal Park station on the Upfield railway line, and is also accessible via tram routes 58 and 19, as well as by bicycle on the Capital City Trail. Bicycles are not allowed inside the zoo itself.
+    </p>
+    <hr>
+    <div class="" style="text-align: center;width: 100%;margin: 10px auto;font-size: 18px;font-weight: 700;padding:5px;">Melbourne Central</div>
+    <div class="parallax-container" style="height: 350px;">
+      <div class="parallax"><img src="https://cdn.retailbiz.com.au/wp-content/uploads/2019/12/11092758/MELBOURNE-CENTRAL_shot-tower-square_image-1536x1310.jpg"></div>
+    </div>
+    <p class="p-explain">
+      Melbourne Central is a large shopping centre, office, and public transport hub in the city of Melbourne, Victoria, Australia. The complex includes the Melbourne Central Shopping Centre, which was refurbished in 2005 by architects Ashton Raggatt McDougall; the Melbourne Central railway station (a part of the City Loop underground railway and formerly called Museum); and the 211-metre (692 ft) high office tower with its distinctive black colour and two communications masts. The centre features a gross leasable area of 55,100 square metres (593,000 sq ft). It is owned by GPT Group.</p>
+      <hr>
+    <div style="text-align: center;padding-bottom:3px;">
+    <h5 id='here'>Start Working With App</h5>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+            <div class="col s8" id='map'></div>
+            <div class="col s4" id='sidebar'>
+
+              <input style="color: #fff;margin-top: 20px;" name="search" class="" id="search" value="" placeholder="Search your destination..."/><button class="waves-effect waves-light btn" id="sendsearch"><i class="fas fa-search"></i> Search</button>
+              <div class="temp-info">There are 202 points of interest added to the map plus tram stations in Melbourne metropolitan. In order to see more information about the closest tram stations near any point including the weather data and tram stop traffics select a marker from the map. You can also navigate to all interested destination by turning on location and selecting markers.</div>
+              <div class="point-info-side"></div>
+              <div id="weather_hourly_icon" class="weather_hourly_icon"></div>
+              <div id="weather_daily_icon" class="weather_daily_icon"></div>
+              <div class="navigation-btn-holder">
+                <div id="direction-btn" onclick="M.toast({html: 'navigation added to Map. Press remove to remove it rom the map!',classes:'rounded'})" class="btn navigation-btn direction-btn disabled"> <i class="fas fa-walking"></i> </div>
+                <div class="btn navigation-btn remove-btn disabled"> remove route <i class="fas fa-trash"></i> </div>
+              </div>
+            </div>
+        <!-- <div class="col s6 offset-s6"></div> -->
+    </div>
+    
+
+
+<input id="hiddenbusorigin" name='hiddenbusorigin' type="hidden" value=""/>
+<script>
+  long_destination = '';
+  lat_destination = '';
+function weather_show_sidebar(lon,lat){
+    let wh_icon = '';
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,current,alerts&units=metric&appid=***`, {
+      method: 'GET'
+    }).then(response => response.json()).then(json => { 
+      
+      wh_icon = '<div class="w-hourly-header">Weather Data for Next 10 Hours:</div>';
+      json.hourly.map((hour, idx) => {
+        if (idx <= 9){
+          let h_timestamp = new Date(hour.dt * 1000);
+          
+          wh_icon = wh_icon + `<div class="hourly_holder"><div class='weather_icon_holder'><img src='http://openweathermap.org/img/wn/${hour.weather[0]['icon']}.png'></div><div class='weather_text_holder'>${h_timestamp.getHours() + ":" + h_timestamp.getMinutes()}</div></div>`;
+          
+          
+        }
+      });
+      wd_icon = '<div class="w-daily-header">Weather Data for Next 3 Days:</div>';
+      json.daily.map((day, idx) => {
+        //console.log(day);
+        if (idx <= 2){
+          let d_timestamp = new Date(day.dt * 1000);
+          wd_icon = wd_icon + `<div class="hourly_holder"><div class='weather_icon_holder'><img src='http://openweathermap.org/img/wn/${day.weather[0]['icon']}.png'></div><div class='weather_text_holder'>${d_timestamp.getUTCMonth()}/${d_timestamp.getUTCDate()}</div><div class='weather_text_holder'>min: ${day.temp.min}</div><div class='weather_text_holder'>max: ${day.temp.max}</div></div>`;
+                    
+        }
+      });
+      document.getElementById("weather_hourly_icon").innerHTML=wh_icon;
+      document.getElementById("weather_daily_icon").innerHTML=wd_icon;
+    });
+}
+
+function detail_show_sidebar(feature){
+  point_name = feature.properties['Feature Name'];
+  point_sub_section = feature.properties['Sub Theme'];
+  point_section = feature.properties['Theme'];
+  side_content = "<div>"+
+    "<div class='point-name'>" + point_name + "</div>"+
+    "<div class='point-sub-section'>" + point_sub_section + ", " + point_section + "</div>"+
+    "</div>";
+  $('.point-info-side').html(side_content);
+  $('#direction-btn').attr('data-destination_lat', feature._geometry.coordinates[1]);
+  $('#direction-btn').attr('data-destination_long', feature._geometry.coordinates[0]);
+}
+
+function get_tram_stations(bus_long,bus_lat,origin_location){
+        const tileset = 'booee.3z0nm77s'; // replace this with the ID of the tileset you created
+        const radius = 1200; // 1500 meters is roughly equal to one mile
+        const limit = 4; // The maximum amount of results to return
+              //const json = query.json();
+
+              
+          fetch(`https://api.mapbox.com/v4/${tileset}/tilequery/${bus_long},${bus_lat}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`).then(response => response.json()).then(json => {
+            
+            if(json.features.length == 0){
+              M.toast({html: 'no tram is around(for 1200 meters)'})
+            }
+            map.getSource('tilequery').setData(json);
+
+          });
+        map.addSource('tilequery', {
+          type: 'geojson',
+          data: {
+            'type': 'FeatureCollection',
+            'features': []
+          }
+        });
+
+        map.addLayer({
+          id: 'tilequery-points',
+          type: 'symbol',
+          source: 'tilequery',
+          'layout': {
+          'icon-image': 'bus', // reference the image
+          'icon-size': 1
+          }
+        });
+        //console.log(origin_location);
+        const bus_box = new mapboxgl.Popup();
+        //console.log(origin_location);
+        map.on('click', 'tilequery-points', (event) => {
+          //map.getCanvas().style.cursor = 'pointer';
+          const properties = event.features[0].properties;
+          const obj = JSON.parse(properties.tilequery);
+          const ol = origin_location;
+          //console.log(feature); 
+          pre_am_peak_sum = 3087.62;
+          am_peak_sum = 17864.74;
+          pm_peak_sum = 176819.68;
+          late_peak_sum = 30383.41;
+          now_time = new Date();
+          //console.log(now_time.getHours());
+          if (now_time.getHours() <= 6){
+            station_traffic = (properties['Pre AM Peak'] * 100)/pre_am_peak_sum;
+            //console.log(station_traffic);
+          }else if (now_time.getHours() < 13){
+            station_traffic = (properties['AM Peak'] * 100)/am_peak_sum;
+            //console.log(station_traffic);
+          }else if (now_time.getHours() < 20){
+            station_traffic = (properties['PM Peak'] * 100)/pm_peak_sum;
+            //console.log(station_traffic);
+          }else if (now_time.getHours() >= 20){
+            station_traffic = (properties['PM Late'] * 100)/late_peak_sum;
+            //console.log(station_traffic);
+          }
+          const coordinates = new mapboxgl.LngLat(
+            properties.Longitude,
+            properties.Latitude
+          );
+          
+          const content = `<div><h6>${properties['Feature Name']}</h6><p>${Number((obj.distance).toFixed(1))} meters from your selected location: <b>${$('#hiddenbusorigin').attr('value')}</b></p><p>traffic in this station currently is estimated to be <b>${Number((station_traffic).toFixed(2))}%</b> of all other stations in metropolitan area.</p>`;
+          //console.log(properties['Normal Weekday']);
+          bus_box.setLngLat(coordinates).setHTML(content).addTo(map);
+          $('#direction-btn').attr('data-destination_lat', properties['Latitude']);
+          $('#direction-btn').attr('data-destination_long', properties['Longitude']);
+        }); 
+        
+        // map.on('mouseleave', 'tilequery-points', () => {
+        //   map.getCanvas().style.cursor = '';
+          
+        // });
+      }
+var route_coordinates = [];
+function navigation(current_lon,current_lat,long_destination,lat_destination){
+  
+  return fetch(`https://api.mapbox.com/directions/v5/mapbox/walking/${current_lon},${current_lat};${long_destination},${lat_destination}?alternatives=false&geometries=geojson&steps=false&access_token=***`, {
+      method: 'GET'
+    }).then(response => response.json()).then(json => { 
+      return json.routes[0]['geometry']['coordinates'];
+    });
+  
+    // 2 lines for test
+}
+function make_the_route(route_coordinates){
+  map.addSource('route', {
+        'type': 'geojson',
+        'data': {
+        'type': 'Feature',
+        'properties': {},
+        'geometry': {
+        'type': 'LineString',
+        'coordinates': route_coordinates
+          }
+        }
+        });
+    
+        map.addLayer({
+        'id': 'route',
+        'type': 'line',
+        'source': 'route',
+        'layout': {
+        'line-join': 'round',
+        'line-cap': 'round'
+        },
+        'paint': {
+        'line-color': '#fcb103',
+        'line-width': 6
+        }
+        });
+
+}
+    // Or with jQuery
+    $(document).ready(function(){
+        $('.sidenav').sidenav();
+        $('.parallax').parallax();
+        // if($("tooltipped").hasClass("disabled")==true){
+        //   $('.tooltipped').tooltip();
+        // }
+        
+      
+    });
+
+    var flag =false;
+
+    $(document).ready(function(){
+      
+    
+      $(".navigation-btn").hide();
+      
+      //$(".mapboxgl-ctrl-geolocate").addClass("btn-floating pulse");
+      
+      
+      $('.remove-btn').click(function() {
+        console.log('clicked');
+          map.removeLayer('route');
+          map.removeSource('route');
+          //console.log(current_lon,current_lat,long_destination,lat_destination);
+        });
+      
+      $('.direction-btn').click(function() {
+        if (flag==true){
+          //M.toast({html: 'you should first remove your current navigation!'});
+          flag =false;
+          map.removeLayer('route');
+          map.removeSource('route');
+        }
+        current_lon = $(this).attr('data-current_lon');
+        current_lat = $(this).attr('data-current_lat');
+        long_destination = $(this).attr('data-destination_long');   
+        lat_destination = $(this).attr('data-destination_lat');
+
+        console.log(current_lon,current_lat,long_destination,lat_destination);
+        route_coordinates = navigation(current_lon,current_lat,long_destination,lat_destination);
+        console.log(route_coordinates);
+
+          route_coordinates.then(function(result) {
+          console.log(result); 
+          make_the_route(result);
+          flag =true;
+        });
+        
+
+        
+        
+        
+        //make_the_route(route_coordinates);
+      });
+    
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    mapboxgl.accessToken = '***'; 
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/booee/***', 
+      center: [144.954165, -37.814107],
+      //maxBounds: [],
+
+      zoom: 12.34
+    });
+
+
+    function search_me(searchInput){
+      
+      return fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${searchInput}.json?country=au&limit=1&proximity=144.9306133%2C-37.8083471&access_token=***`, {
+      method: 'GET'
+    }).then(response => response.json()).then(json => { 
+      //console.log(json);
+      //console.log(json.features[0]['place_name'],json.features[0].properties.category);
+      return json;
+    });
+    }
+
+    var marker = {};
+    var markedsearch = false;
+    //$("#delete-search").click(function(){
+    function delete_search(marker){
+      marker.remove();
+      console.log(marker);
+    }
+    //});
+    
+    $("#sendsearch").click(function(){
+      console.log($("#search").val());
+      if (markedsearch == true){
+        delete_search(marker);
+      }
+      if ($("#search").val() != ""){
+        var searched_coordination = search_me($("#search").val());
+          searched_coordination.then(function(result){
+          console.log(result);
+          var coordinations = result.features[0]['geometry']['coordinates'];
+          var name = result.features[0]['place_name'];
+          var cat = result.features[0].properties.category;
+          console.log(coordinations,name,cat);
+          if (coordinations.length >= 2){
+          $('#direction-btn').attr('data-destination_lat', coordinations[1]);
+          $('#direction-btn').attr('data-destination_long', coordinations[0]);
+          $('#hiddenbusorigin').attr('value',name);
+          marker = new mapboxgl.Marker().setLngLat(coordinations).addTo(map);
+          markedsearch = true;
+          $(".navigation-btn").show();
+          $('.temp-info').hide();
+          //console.log($('#direction-btn').attr('data-destination_long'));
+          side_content = "<div>"+
+            "<div class='point-name' style='font-size:15px'>" + name + "</div>"+
+            "<div class='point-sub-section'>" + cat + "</div>"+
+            "</div>";
+          $('.point-info-side').html(side_content);
+          get_tram_stations($('#direction-btn').attr('data-destination_long'),$('#direction-btn').attr('data-destination_lat'),name);
+          weather_show_sidebar(coordinations[0],coordinations[1]);
+          }
+      });
+      }
+
+    });
+
+
+
+
+
+    var geolocate = new mapboxgl.GeolocateControl({
+    positionOptions: {
+    enableHighAccuracy: true
+    },
+    // When active the map will receive updates to the device's location as it changes.
+    trackUserLocation: true,
+    // Draw an arrow next to the location dot to indicate which direction the device is heading.
+    showUserHeading: true,
+    trackUserLocation:true
+
+    })
+    var current_lat = '';
+    var current_lon = '';
+    map.addControl(geolocate);
+    geolocate.on('geolocate', function(e) {
+      current_lon = e.coords.longitude;//"144.9306133";
+      current_lat = e.coords.latitude//"-37.8083471";
+      
+      $('#direction-btn').attr('data-current_lat', current_lat);
+      $('#direction-btn').attr('data-current_lon', current_lon);
+      $(".navigation-btn").removeClass( "disabled");
+      
+
+      //console.log(current_lon,current_lat);
+    },function(){
+        M.toast({html: 'your location is added to the map.'});
+      
+    });
+
+
+    
+
+
+
+
+
+
+
+
+    var bus_box = "";
+
+    map.on('click', ({ point }) => {
+      
+      $(".navigation-btn").show();
+      $('.temp-info').hide();
+      
+    // If the user clicked on one of your markers, get its information.
+    const features = map.queryRenderedFeatures(point, {
+        layers: ['melbourne-poi'] // replace with your layer name
+    });
+    if (!features.length) {
+        return;
+    }
+    const feature = features[0];
+
+    //$("input[name=hiddenbusorigin]").val(feature.properties['Feature Name']);
+    $('#hiddenbusorigin').attr('value',feature.properties['Feature Name']);
+
+    const popup = new mapboxgl.Popup({ offset: [0, -15] })
+    .setLngLat(feature.geometry.coordinates)
+    .setHTML(
+        `<h6>${feature.properties['Feature Name']}</h6></p>`
+    )
+    .addTo(map);
+
+
+
+
+
+    detail_show_sidebar(feature);
+
+    //long_destination = ;
+    //lat_destination = feature._geometry.coordinates[1];
+    //$('#direction-btn').attr('data-destination_long', long_destination);
+    //$('#direction-btn').attr('data-destination_lat', lat_destination);
+    
+        // route_coordinates = navigation(current_lon,current_lat,long_destination,lat_destination);
+        // console.log(route_coordinates);
+
+    weather_show_sidebar(feature._geometry.coordinates[0],feature._geometry.coordinates[1]);
+
+    if (bus_box!==""){
+      bus_box.remove();
+    };
+
+    get_tram_stations(feature._geometry.coordinates[0],feature._geometry.coordinates[1],feature.properties['Feature Name']);
+
+
+
+    });
+
+
+
+    
+    </script>
+    
+  </body>
+</html>
